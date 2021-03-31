@@ -40,3 +40,25 @@ negation = not
 
 iDontKnowHowThisIsCalled :: Bool -> Bool -> Bool
 iDontKnowHowThisIsCalled = (&&)
+
+-- isDigit :: Char -> Bool
+
+-- ! Funciones multiples argumentos
+
+suma :: Num a => a -> a -> a
+suma x y = x+y
+
+deCeroA :: Int -> [Int]
+deCeroA n = [0..n]
+
+-- ! Parcializacion
+
+mult :: Int -> (Int -> (Int -> Int))
+mult x y z = x*y*z
+
+-- :type mult 2 => mult 2 :: Int -> Int -> Int
+-- :type (mult 2) 3 => (mult 2) 3 :: Int -> Int
+-- :type (mult 2 3 ) 5 => (mult 2 3 ) 5 :: Int
+
+suc :: Int -> Int
+suc = suma 1
