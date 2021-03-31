@@ -50,3 +50,83 @@ tellHowManyElements []       = "La lista está vacia"
 tellHowManyElements (x:[])   = "La lista tiene un elemento: " ++ show x
 tellHowManyElements (x:y:[]) = "La lista tiene dos elementos : " ++ show x ++ " y " ++ show y
 tellHowManyElements (x:y:_)  = "La lista es larga, los primeros elementos son" ++ show x ++ " y " ++ show y
+
+length' :: (Num b) => [a] -> b
+length' [] = 0
+length' (_:xs) = 1 + length' xs
+
+sum' :: (Num a) => [a] -> a
+sum' [] = 0
+sum' (x:xs) = x + sum' xs
+
+-- ! Patterns
+capital :: String -> String
+capital "" = "Una cadena vacia ¬¬"
+capital all@(x:_) = "La primera letra de " ++ all ++ " es " ++ [x]
+
+-- ! Guardas
+
+bmiTell :: (RealFloat a) => a -> String
+bmiTell bmi
+    | bmi <= 18.5 = "Tienes infrapeso ¿Eres emo?"
+    | bmi <= 25.0 = "Supuestamente eres normal... Espero seas feo"
+    | bmi <= 30   = "¡Estás gordo! Pierde algo de peso gordito."
+    | otherwise   = "¡Enhorabuena, eres una ballena!"
+
+
+bmiTell' :: (RealFloat a) => a -> a -> String
+bmiTell' weight height
+    | weight / height ^ 2 <= 18.5 = "Tienes infrapeso ¿Eres emo?"
+    | weight / height ^ 2 <= 25.0 = "Supuestamente eres normal... Espero seas feo"
+    | weight / height ^ 2 <= 30.0 = "¡Estás gordo! Pierde algo de peso gordito."
+    | otherwise                   = "¡Enhorabuena, eres una ballena!"
+
+max' :: (Ord a) => a -> a -> a
+max' a b
+    | a > b     = a
+    | otherwise = b
+
+myCompare :: (Ord a) => a -> a -> Ordering
+a `myCompare` b
+    | a > b      = GT
+    | a == b     = EQ
+    | otherwise  = LT
+
+bmiTellBetter :: (RealFloat a) => a -> a -> String
+bmiTellBetter weight height
+    | bmi <= 18.5 = "Tienes infrapeso ¿Eres emo?"
+    | bmi <= 25.0 = "Supuestamente eres normal... Espero seas feo"
+    | bmi <= 30.0 = "¡Estás gordo! Pierde algo de peso gordito."
+    | otherwise   = "¡Enhorabuena, eres una ballena!"
+    where bmi = weight / height ^ 2
+
+bmiTellBetter' :: (RealFloat a) => a -> a -> String
+bmiTellBetter' weight height
+    | bmi <= skinny = "Tienes infrapeso ¿Eres emo?"
+    | bmi <= normal = "Supuestamente eres normal... Espero seas feo"
+    | bmi <= fat = "¡Estás gordo! Pierde algo de peso gordito."
+    | otherwise   = "¡Enhorabuena, eres una ballena!"
+    where   bmi = weight / height ^ 2
+            skinny = 18.5
+            normal = 25.0
+            fat = 30
+
+
+bmiTellBetter2 :: (RealFloat a) => a -> a -> String
+bmiTellBetter2 weight height
+    | bmi <= skinny = "Tienes infrapeso ¿Eres emo?"
+    | bmi <= normal = "Supuestamente eres normal... Espero seas feo"
+    | bmi <= fat = "¡Estás gordo! Pierde algo de peso gordito."
+    | otherwise   = "¡Enhorabuena, eres una ballena!"
+    where   bmi = weight / height ^ 2
+            (skinny, normal, fat) = (18.5, 25.0, 30.0)
+
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
+    where   (f:_) = firstname
+            (l:_) = lastname
+
+calcBmis :: (RealFloat  a) => [(a, a)] -> [a]
+calcBmis xs = [bmi w h | (w, h) <- xs]
+    where bmi weight height = weight / height ^ 2
+
