@@ -130,3 +130,47 @@ calcBmis :: (RealFloat  a) => [(a, a)] -> [a]
 calcBmis xs = [bmi w h | (w, h) <- xs]
     where bmi weight height = weight / height ^ 2
 
+-- ! let
+
+cylinder :: (RealFloat a) => a -> a -> a
+cylinder r h =
+    let sideArea = 2 * pi * r * h
+        topArea = pi * r ^2
+    in  sideArea + 2 * topArea
+
+ifExample :: [[Char]]
+ifExample = [if 5 > 3 then "Woo" else "Boo", if 'a' > 'b' then "Foo" else "Bar"] -- -> ["Woo", "Bar"]
+
+ifExample' :: Integer
+ifExample' = 4 * (let a = 9 in a + 1) + 2 -- -> 42
+
+local :: [(Integer, Integer, Integer)]
+local = [let square x = x * x in (square 5, square 3, square 2)] -- -> [(25,9,4)]
+
+multipleVariables :: (Integer, [Char])
+multipleVariables = (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar= "there!" in foo ++ bar)
+-- -> (6000000,"Hey there!")
+
+multipleVariables' :: Integer
+multipleVariables' = (let (a,b,c) = (1,2,3) in a+b+c) * 100
+
+calcBmisLet :: (RealFloat  a) => [(a, a)] -> [a]
+calcBmisLet xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2]
+
+calcBmisLet' :: (RealFloat a) => [(a, a)] -> [a]
+calcBmisLet' xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2, bmi >= 25.0]
+
+head2 :: [a] -> a
+head2 xs = case xs of   [] -> error "Head no funciona con listas vacias"
+                        (x:_) -> x
+
+describeList :: [a] -> String
+describeList xs = "La lista es" ++ case xs of   [] -> "una lista vacía"
+                                                [x] -> "una lista unitaria"
+                                                xs -> "una lista larga"
+
+describeList' :: [a] -> String
+describeList' xs = "The list is" ++ what xs
+    where   what [] = "empty."
+            what [x] = "a singleton list"
+            what xs = "a longer list"
